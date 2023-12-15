@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.opcode.exception.InvalidCommandException;
+import org.opcode.exception.InvalidInstructionException;
 import org.opcode.model.Register;
 import org.opcode.model.RegisterState;
 import org.opcode.service.implementation.OpcodeSimulatorImplementation;
@@ -126,7 +127,7 @@ class OpcodeSimulatorTest {
     }
 
     @Test
-    void testInvalidInstruction()
+    void testInvalidArgument()
     {
         List<String> instructions = new ArrayList<>();
         instructions.add("RTP");
@@ -150,6 +151,94 @@ class OpcodeSimulatorTest {
             assertTrue(ex instanceof InvalidCommandException);
         }
     }
+    @Test
+    void testInvalidInstructionRST()
+    {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("RST 1");
+        try {
+            simulator.execute(instructions);
+        }
+        catch (Throwable ex) {
+            assertTrue(ex instanceof InvalidInstructionException);
+        }
+    }
 
+    @Test
+    void testInvalidInstructionAdd()
+    {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("ADD A");
+        try {
+            simulator.execute(instructions);
+        }
+        catch (Throwable ex) {
+            assertTrue(ex instanceof InvalidInstructionException);
+        }
+    }
+
+    @Test
+    void testInvalidInstructionAdr()
+    {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("ADR C");
+        try {
+            simulator.execute(instructions);
+        }
+        catch (Throwable ex) {
+            assertTrue(ex instanceof InvalidInstructionException);
+        }
+    }
+
+    @Test
+    void testInvalidInstructionDcr()
+    {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("DCR C 2");
+        try {
+            simulator.execute(instructions);
+        }
+        catch (Throwable ex) {
+            assertTrue(ex instanceof InvalidInstructionException);
+        }
+    }
+
+    @Test
+    void testInvalidInstructionInr()
+    {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("INR C 2");
+        try {
+            simulator.execute(instructions);
+        }
+        catch (Throwable ex) {
+            assertTrue(ex instanceof InvalidInstructionException);
+        }
+    }
+    @Test
+    void testInvalidInstructionMov()
+    {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("MOV C");
+        try {
+            simulator.execute(instructions);
+        }
+        catch (Throwable ex) {
+            assertTrue(ex instanceof InvalidInstructionException);
+        }
+    }
+
+    @Test
+    void testInvalidInstructionSet()
+    {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("SET C");
+        try {
+            simulator.execute(instructions);
+        }
+        catch (Throwable ex) {
+            assertTrue(ex instanceof InvalidInstructionException);
+        }
+    }
 
 }

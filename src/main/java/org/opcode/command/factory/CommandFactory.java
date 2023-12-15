@@ -6,7 +6,14 @@ import org.opcode.enums.CommandType;
 import org.opcode.exception.InvalidCommandException;
 
 public class CommandFactory {
+    private static final CommandFactory INSTANCE = new CommandFactory();
 
+    private CommandFactory() {
+    }
+
+    public static CommandFactory getInstance() {
+        return INSTANCE;
+    }
     public Command getCommand(String commandType){
         CommandType type = CommandType.valueOf(commandType);
 

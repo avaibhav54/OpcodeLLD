@@ -19,7 +19,8 @@ public class OpcodeSimulatorImplementation implements OpcodeSimulator {
     public RegisterState execute(List<String> instructions) {
 
         for(String instruction : instructions) {
-            Command command = new CommandFactory().getCommand(instruction.split(" ")[0]);
+            // use singleton pattern to get the commandFactory object
+            Command command = CommandFactory.getInstance().getCommand(instruction.split(" ")[0]);
             if(!(command.validate(instruction))) throw  new InvalidInstructionException("Invalid Instruction");
             this.registerState = command.execute(registerState, instruction);
         }

@@ -17,6 +17,6 @@ public class MovCommand implements Command {
 
     @Override
     public boolean validate(String instruction) {
-        return true;
+        return instruction.split(" ").length==3;
     }
 }
