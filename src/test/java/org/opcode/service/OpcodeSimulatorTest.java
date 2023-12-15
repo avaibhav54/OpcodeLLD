@@ -1,12 +1,17 @@
 package org.opcode.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.opcode.exception.InvalidCommandException;
+import org.opcode.model.Register;
 import org.opcode.model.RegisterState;
+import org.opcode.service.implementation.OpcodeSimulatorImplementation;
 
 @TestInstance (TestInstance.Lifecycle.PER_CLASS)
 class OpcodeSimulatorTest {
@@ -14,7 +19,16 @@ class OpcodeSimulatorTest {
 
     @BeforeEach
     void setup() {
-        //TODO: setup simulator
+        List<Register> registers = new ArrayList<Register>(){
+            {
+                add(new Register('A'));
+                add(new Register('B'));
+                add(new Register('C'));
+                add(new Register('D'));
+            }
+        };
+        RegisterState registerState = new RegisterState(registers);
+        simulator = new OpcodeSimulatorImplementation(registerState);
     }
 
     @Test
@@ -110,4 +124,32 @@ class OpcodeSimulatorTest {
         assertEquals(11, state.getRegister('A').getValue());
         assertEquals(25, state.getRegister('B').getValue());
     }
+
+    @Test
+    void testInvalidInstruction()
+    {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("RTP");
+        try {
+            simulator.execute(instructions);
+        }
+        catch (Throwable ex) {
+            assertTrue(ex instanceof IllegalArgumentException);
+        }
+    }
+
+    @Test
+    void testInvalidCommand()
+    {
+        List<String> instructions = new ArrayList<>();
+        instructions.add("TEST");
+        try {
+            simulator.execute(instructions);
+        }
+        catch (Throwable ex) {
+            assertTrue(ex instanceof InvalidCommandException);
+        }
+    }
+
+
 }
